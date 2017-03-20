@@ -31,6 +31,10 @@ public class Grid {
         return result;
     }
 
+    public int getRows() {
+        return rows;
+    }
+
     protected void configureCells() {
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++) {
@@ -78,10 +82,16 @@ public class Grid {
         return rows * columns;
     }
 
-    public List<Cell> eachRow(int rowIndex) {
-        List<Cell> result = new ArrayList<>();
+    public List<List<Cell>> eachRow(){
 
-        result.addAll(Arrays.asList(grid[rowIndex]).subList(0, columns));
+        final List<List<Cell>> result = new ArrayList<>();
+        List<Cell> row = new ArrayList<>();
+
+        for(int i=0; i < rows; i++) {
+            row.addAll(Arrays.asList(grid[i]).subList(0, columns));
+            result.add(row);
+            row = new ArrayList<>();
+        }
 
         return result;
     }
@@ -107,12 +117,12 @@ public class Grid {
         result.append("\n");
 
         //Rows
-        for(int i=0; i < rows; i++) {
+        for(List<Cell> row : eachRow()) {
             final StringBuilder top = new StringBuilder();
             top.append("|");
             final StringBuilder bottom = new StringBuilder();
             bottom.append("+");
-            List<Cell> row = eachRow(i);
+            //List<Cell> row = eachRow(i);
             for(Cell cell : row) {
                 top.append("   ");
                 if(cell.getEast() == null) {
